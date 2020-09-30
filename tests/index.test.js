@@ -11,12 +11,10 @@ describe("app", () => {
   });
 
   it("should rejected", async () => {
-    getData.mockResolvedValue({ id: 5, user: "new mock" });
+    getData.mockImplementation(async () => {
+      throw new Error("cannot get any data!");
+    });
 
-    console.log(getData);
-
-    const result = await app();
-
-    expect(result).toStrictEqual({ id: 5, user: "new mock" });
+    await expect(app()).rejects.toThrowError(new Error("cannot get any data!"));
   });
 });
